@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { analyticsService } from '../services/analytics';
 import { encryptionService } from '../services/encryption';
+import mfaService from '../services/mfa';
 import Card from '../components/common/Card';
+import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import { formatNumber, formatDate } from '../utils/helpers';
 import {
@@ -17,11 +20,23 @@ import { LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Leg
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [recentData, setRecentData] = useState([]);
+    const [mfaStatus, setMfaStatus] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchDashboardData();
+        fetchMFAStatus();
     }, []);
+
+    const fetchMFAStatus = async () => {
+        try {
+            const status = await mfaService.getMFAStatus();
+            setMfaStatus(status);
+        } catch (error) {
+            console.error('Failed to fetch MFA status:', error);
+        }
+    };
 
     const fetchDashboardData = async () => {
         try {
@@ -80,6 +95,49 @@ const Dashboard = () => {
         <div className="min-h-screen bg-slate-900 p-6">
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-3xl font-bold text-white mb-8">Dashboard</h1>
+
+                {/* MFA Status Banner */}
+                {mfaStatus && !mfaStatus.mfa_enabled && (
+                    <div className="mb-6">
+                        <Card className="bg-blue-500/10 border-blue-500/30">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <ShieldCheckIcon className="h-6 w-6 text-blue-500" />
+                                    <div>
+                                        <h3 className="text-white font-semibold">Secure Your Account</h3>
+                                        <p className="text-slate-300 text-sm">Enable two-factor authentication for enhanced security</p>
+                                    </div>
+                                </div>
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => navigate('/mfa/setup')}
+                                >
+                                    Enable MFA
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
+                )}
+
+                {mfaStatus && mfaStatus.mfa_enabled && (
+                    <div className="mb-6">
+                        <Card className="bg-green-500/10 border-green-500/30">
+                            <div className="flex items-center gap-3">
+                                <ShieldCheckIcon className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h3 className="text-white font-semibold">MFA Enabled ✓</h3>
+                                    <p className="text-slate-300 text-sm">
+                                        Your account is protected with two-factor authentication
+                                        {mfaStatus.backup_codes_remaining > 0 &&
+                                            ` • ${mfaStatus.backup_codes_remaining} backup codes remaining`
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+                )}
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

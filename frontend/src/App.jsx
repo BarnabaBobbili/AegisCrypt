@@ -11,6 +11,8 @@ import Classification from './pages/Classification';
 import Encryption from './pages/Encryption';
 import Policies from './pages/Policies';
 import Analytics from './pages/Analytics';
+import UserManagement from './pages/UserManagement';
+import MFASetup from './pages/MFASetup';
 
 function App() {
     return (
@@ -33,6 +35,8 @@ function App() {
                                         <Route path="/encryption" element={<Encryption />} />
                                         <Route path="/policies" element={<Policies />} />
                                         <Route path="/analytics" element={<Analytics />} />
+                                        <Route path="/admin/users" element={<UserManagement />} />
+                                        <Route path="/mfa/setup" element={<MFASetup />} />
                                         <Route path="*" element={<Navigate to="/" replace />} />
                                     </Routes>
                                 </div>

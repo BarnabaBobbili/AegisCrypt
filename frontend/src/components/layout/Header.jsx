@@ -8,6 +8,7 @@ import {
     ShieldCheckIcon,
     ChartBarIcon,
     ArrowRightOnRectangleIcon,
+    UserGroupIcon,
 } from '@heroicons/react/24/outline';
 
 const Header = () => {
@@ -27,6 +28,11 @@ const Header = () => {
         { name: 'Policies', path: '/policies', icon: ShieldCheckIcon },
         { name: 'Analytics', path: '/analytics', icon: ChartBarIcon },
     ];
+
+    // Add admin link for admin users
+    if (user?.role === 'admin') {
+        navigation.push({ name: 'Admin', path: '/admin/users', icon: UserGroupIcon });
+    }
 
     return (
         <header className="bg-slate-800 border-b border-slate-700">

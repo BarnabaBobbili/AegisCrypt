@@ -14,7 +14,7 @@ import time
 from app.config import settings
 from app.database import init_db
 from app.utils.logger import logger, log_request
-from app.api.v1 import auth, classification, encryption, policies, analytics
+from app.api.v1 import auth, classification, encryption, policies, analytics, admin, export
 
 
 # Create FastAPI application
@@ -144,6 +144,8 @@ app.include_router(classification.router, prefix="/api/v1")
 app.include_router(encryption.router, prefix="/api/v1")
 app.include_router(policies.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
+app.include_router(admin.router, prefix="/api/v1")
+app.include_router(export.router, prefix="/api/v1")
 
 
 # Run with: uvicorn app.main:app --reload

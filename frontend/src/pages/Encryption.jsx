@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { encryptionService } from '../services/encryption';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
@@ -6,6 +7,7 @@ import { formatDate, copyToClipboard } from '../utils/helpers';
 import { LockClosedIcon, LockOpenIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 
 const Encryption = () => {
+    const location = useLocation();
     const [activeTab, setActiveTab] = useState('encrypt');
     const [encryptText, setEncryptText] = useState('');
     const [encryptResult, setEncryptResult] = useState(null);
@@ -13,6 +15,19 @@ const Encryption = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [decryptResult, setDecryptResult] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [fromClassification, setFromClassification] = useState(null);
+
+    // Check if navigated from Classification page
+    useEffect(() => {
+        if (location.state?.plaintext) {
+            setEncryptText(location.state.plaintext);
+            setFromClassification({
+                sensitivity: location.state.sensitivity,
+                policy: location.state.policy
+            });
+            setActiveTab('encrypt'); // Make sure we're on encrypt tab
+        }
+    }, [location]);
 
     useEffect(() => {
         if (activeTab === 'decrypt') {
@@ -70,8 +85,8 @@ const Encryption = () => {
                     <button
                         onClick={() => setActiveTab('encrypt')}
                         className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'encrypt'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-slate-800 text-slate-400 hover:text-white'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-800 text-slate-400 hover:text-white'
                             }`}
                     >
                         <LockClosedIcon className="h-5 w-5 inline mr-2" />
@@ -80,8 +95,8 @@ const Encryption = () => {
                     <button
                         onClick={() => setActiveTab('decrypt')}
                         className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === 'decrypt'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-slate-800 text-slate-400 hover:text-white'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-800 text-slate-400 hover:text-white'
                             }`}
                     >
                         <LockOpenIcon className="h-5 w-5 inline mr-2" />
@@ -89,9 +104,29 @@ const Encryption = () => {
                     </button>
                 </div>
 
-                {/* Encrypt Tab */}
+                {/*Encrypt Tab */}
                 {activeTab === 'encrypt' && (
                     <div className="space-y-6">
+                        {/* Classification Info Banner */}
+                        {fromClassification && (
+                            <div className="p-4 bg-blue-500/10 border-2 border-blue-500/40 rounded-lg">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <LockClosedIcon className="h-5 w-5 text-blue-400" />
+                                    <h3 className="text-blue-400 font-semibold">Ready to Encrypt with Recommended Policy</h3>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                    <div>
+                                        <span className="text-slate-400">Sensitivity:</span>
+                                        <span className="text-white ml-2 font-medium capitalize">{fromClassification.sensitivity.replace('_', ' ')}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-slate-400">Algorithm:</span>
+                                        <span className="text-white ml-2 font-mono">{fromClassification.policy.encryption}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <Card title="Encrypt Data">
                             <textarea
                                 value={encryptText}

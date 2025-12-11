@@ -108,6 +108,11 @@ class User(Base):
         nullable=True,
         comment="TOTP secret for MFA (encrypted)"
     )
+    backup_codes = Column(
+        String(1000),
+        nullable=True,
+        comment="JSON array of backup codes for MFA recovery"
+    )
     
     # Timestamps
     created_at = Column(

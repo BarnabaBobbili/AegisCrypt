@@ -1,8 +1,7 @@
-from __future__ import annotations
 """
 Pydantic Schemas Package
 
-This package contains all Pydantic schemas for request/response validation.
+Exports all Pydantic models for request/response validation.
 """
 
 from app.schemas.user import (
@@ -25,6 +24,13 @@ from app.schemas.audit import (
     AuditLogResponse,
     AuditStatsResponse,
 )
+from app.schemas.admin import (
+    UserCreateRequest,
+    UserUpdateRequest,
+    RoleUpdateRequest,
+    UserListResponse,
+    SystemStatsResponse,
+)
 
 __all__ = [
     # User schemas
@@ -43,5 +49,10 @@ __all__ = [
     # Audit schemas
     "AuditLogResponse",
     "AuditStatsResponse",
+    # Admin schemas
+    "UserCreateRequest",
+    "UserUpdateRequest",
+    "RoleUpdateRequest",
+    "UserListResponse",
+    "SystemStatsResponse",
 ]
-

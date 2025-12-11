@@ -327,3 +327,208 @@ async def update_user(
     logger.info(f"User {user.username} updated by admin {current_user.username}")
     
     return user
+
+
+# ============================================================
+# MFA (Multi-Factor Authentication) Endpoints
+# ============================================================
+
+@router.post("/mfa/enroll")
+async def enroll_mfa(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Enroll in TOTP-based MFA.
+    
+    - Generates a new TOTP secret
+    - Returns secret and QR code for authenticator app
+    - Generates backup codes
+    """
+    from app.services.mfa_service import MFAService
+    import json
+    
+    # Check if MFA is already enabled
+    if current_user.mfa_enabled:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="MFA is already enabled for this account"
+        )
+    
+    # Generate TOTP secret
+    secret = MFAService.generate_secret()
+    
+    # Generate QR code
+    qr_code_data = MFAService.generate_qr_code(secret, current_user.username)
+    
+    # Generate backup codes
+    backup_codes = MFAService.generate_backup_codes(10)
+    
+    # Store secret and backup codes (temporarily, until verification)
+    current_user.mfa_secret = secret
+    current_user.backup_codes = json.dumps(backup_codes)
+    db.commit()
+    
+    logger.info(f"MFA enrollment initiated for user: {current_user.username}")
+    
+    return {
+        "secret": secret,
+        "qr_code": qr_code_data,
+        "backup_codes": backup_codes,
+        "message": "Scan the QR code with your authenticator app and verify with a code"
+    }
+
+
+@router.post("/mfa/verify")
+async def verify_mfa_enrollment(
+    code: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Verify TOTP code to complete MFA enrollment.
+    
+    - Verifies the code from authenticator app
+    - Enables MFA if code is valid
+    """
+    from app.services.mfa_service import MFAService
+    
+    if not current_user.mfa_secret:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="MFA enrollment not initiated. Call /mfa/enroll first"
+        )
+    
+    # Verify TOTP code
+    is_valid = MFAService.verify_totp(current_user.mfa_secret, code)
+    
+    if not is_valid:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid verification code"
+        )
+    
+    # Enable MFA
+    current_user.mfa_enabled = True
+    db.commit()
+    
+    logger.info(f"MFA successfully enabled for user: {current_user.username}")
+    
+    return {
+        "success": True,
+        "message": "MFA has been successfully enabled for your account"
+    }
+
+
+@router.post("/mfa/login-verify")
+async def verify_mfa_login(
+    username: str,
+    code: str,
+    db: Session = Depends(get_db)
+):
+    """
+    Verify TOTP code during login (for MFA-enabled users).
+    
+    This endpoint should be called after initial password verification
+    if the user has MFA enabled.
+    """
+    from app.services.mfa_service import MFAService
+    import json
+    
+    user = db.query(User).filter(User.username == username).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    if not user.mfa_enabled or not user.mfa_secret:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="MFA is not enabled for this account"
+        )
+    
+    # Try TOTP verification first
+    is_valid = MFAService.verify_totp(user.mfa_secret, code)
+    
+    # If TOTP fails, check backup codes
+    if not is_valid and user.backup_codes:
+        backup_codes = json.loads(user.backup_codes)
+        is_valid, updated_codes = MFAService.verify_backup_code(backup_codes, code)
+        
+        if is_valid:
+            # Update backup codes (remove used code)
+            user.backup_codes = json.dumps(updated_codes)
+            db.commit()
+            logger.info(f"Backup code used for user: {username}")
+    
+    if not is_valid:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid MFA code"
+        )
+    
+    logger.info(f"MFA verification successful for user: {username}")
+    
+    return {
+        "success": True,
+        "message": "MFA verification successful"
+    }
+
+
+@router.post("/mfa/disable")
+async def disable_mfa(
+    password: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Disable MFA for the current user.
+    
+    - Requires password confirmation
+    - Removes MFA secret and backup codes
+    """
+    # Verify password
+    if not verify_password(password, current_user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid password"
+        )
+    
+    # Disable MFA
+    current_user.mfa_enabled = False
+    current_user.mfa_secret = None
+    current_user.backup_codes = None
+    db.commit()
+    
+    logger.info(f"MFA disabled for user: {current_user.username}")
+    
+    return {
+        "success": True,
+        "message": "MFA has been disabled for your account"
+    }
+
+
+@router.get("/mfa/status")
+async def get_mfa_status(
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Get MFA status for the current user.
+    """
+    import json
+    
+    backup_count = 0
+    if current_user.backup_codes:
+        try:
+            backup_codes = json.loads(current_user.backup_codes)
+            backup_count = len(backup_codes)
+        except:
+            pass
+    
+    return {
+        "mfa_enabled": current_user.mfa_enabled,
+        "backup_codes_remaining": backup_count if current_user.mfa_enabled else 0
+    }
+

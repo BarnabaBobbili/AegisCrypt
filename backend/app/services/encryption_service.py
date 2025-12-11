@@ -101,8 +101,10 @@ class EncryptionService:
             encrypted_content = encryption_result["ciphertext"]
             nonce = encryption_result["nonce"]
             tag = encryption_result["tag"]
-            # Store the AES key (in production, use key management service)
-            encryption_key_id = encryption_result.get("key", "")
+            # Store the AES key (already base64 encoded by aes_encrypt)
+            if "key" not in encryption_result:
+                raise ValueError("AES encryption did not return a key")
+            encryption_key_id = encryption_result["key"]
         
         # Generate digital signature if required
         signature = None
@@ -158,9 +160,12 @@ class EncryptionService:
         if not data_item.encrypted_content:
             raise ValueError("Data item is not encrypted")
         
+        logger.info(f"Attempting to decrypt data item {data_item.id}, algorithm: {data_item.encryption_algorithm}")
+        
         # Decrypt based on algorithm
         if "Hybrid" in data_item.encryption_algorithm:
             # Hybrid decryption
+            logger.info("Using hybrid decryption")
             plaintext = hybrid_decrypt(
                 encrypted_data=data_item.encrypted_content,
                 encrypted_key=data_item.encryption_key_id,
@@ -170,8 +175,15 @@ class EncryptionService:
             )
         else:
             # AES decryption
+            logger.info(f"Using AES decryption, key_id length: {len(data_item.encryption_key_id)}")
             # In production, retrieve key from key management service
-            key = base64.b64decode(data_item.encryption_key_id)
+            try:
+                key = base64.b64decode(data_item.encryption_key_id)
+                logger.info(f"Decoded key length: {len(key)} bytes")
+            except Exception as e:
+                logger.error(f"Failed to decode encryption key: {e}")
+                raise ValueError(f"Failed to decode encryption key: {e}")
+                
             plaintext = aes_decrypt(
                 ciphertext=data_item.encrypted_content,
                 key=key,

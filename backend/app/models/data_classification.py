@@ -106,9 +106,9 @@ class DataItem(Base):
         comment="Encryption algorithm used (e.g., AES-256-GCM)"
     )
     encryption_key_id = Column(
-        String(100),
+        Text,
         nullable=True,
-        comment="Reference to encryption key"
+        comment="Reference to encryption key (or encrypted key for hybrid)"
     )
     nonce = Column(
         String(255),
