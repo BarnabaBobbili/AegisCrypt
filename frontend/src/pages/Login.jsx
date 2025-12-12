@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import Input from '../components/common/Input';
-import Button from '../components/common/Button';
-import Card from '../components/common/Card';
+import { ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -32,83 +30,101 @@ const LoginPage = () => {
             await login(formData.username, formData.password);
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.detail || 'Login failed. Please try again.');
+            setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
             <div className="w-full max-w-md">
+                {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mb-4">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4">
+                        <ShieldCheckIcon className="w-8 h-8 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold text-white mb-2">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
                         Adaptive Crypto Policy Engine
                     </h1>
-                    <p className="text-slate-400">
+                    <p className="text-gray-600">
                         AI-Driven Context-Aware Data Protection
                     </p>
                 </div>
 
-                <Card glass>
-                    <h2 className="text-2xl font-bold text-white mb-6">Sign In</h2>
+                {/* Login Card */}
+                <div className="bg-white rounded-xl border border-gray-200 shadow-lg p-8">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
 
+                    {/* Error Message */}
                     {error && (
-                        <div className="mb-4 p-3 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm">
+                        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
                             {error}
                         </div>
                     )}
 
+                    {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <Input
-                            label="Username"
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            placeholder="Enter your username"
-                            required
-                        />
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="Enter your username"
+                                required
+                                className="w-full px-4 py-3 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            />
+                        </div>
 
-                        <Input
-                            label="Password"
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Enter your password"
-                            required
-                        />
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Enter your password"
+                                required
+                                className="w-full px-4 py-3 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            />
+                        </div>
 
-                        <Button
+                        <button
                             type="submit"
-                            variant="primary"
-                            className="w-full"
-                            loading={loading}
+                            disabled={loading}
+                            className="w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Sign In
-                        </Button>
+                            {loading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    </svg>
+                                    Signing In...
+                                </span>
+                            ) : (
+                                'Sign In'
+                            )}
+                        </button>
                     </form>
 
-                    <div className="mt-6 p-4 bg-slate-700/50 rounded-lg">
-                        <p className="text-xs text-slate-400 mb-2">Demo Credentials:</p>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                            <div>
-                                <span className="text-slate-500">Admin:</span>
-                                <span className="text-white ml-1">admin / Admin@123</span>
-                            </div>
-                            <div>
-                                <span className="text-slate-500">User:</span>
-                                <span className="text-white ml-1">user1 / User@123</span>
+                    {/* Demo Credentials */}
+                    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-xs font-medium text-blue-900 mb-2">Demo Credentials:</p>
+                        <div className="space-y-1 text-xs">
+                            <div className="flex justify-between">
+                                <span className="text-blue-700">Admin:</span>
+                                <span className="text-blue-900 font-mono">admin / admin123</span>
                             </div>
                         </div>
                     </div>
-                </Card>
+                </div>
             </div>
         </div>
     );

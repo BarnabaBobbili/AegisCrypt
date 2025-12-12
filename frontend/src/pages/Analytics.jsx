@@ -56,10 +56,10 @@ const Analytics = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-white">Analytics & Audit Logs</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Analytics & Audit Logs</h1>
                     <div className="flex gap-3">
                         <Button
                             variant="secondary"
@@ -92,15 +92,15 @@ const Analytics = () => {
                                 >
                                     <div className="flex items-start justify-between">
                                         <div>
-                                            <p className="text-white font-medium">{alert.message}</p>
-                                            <p className="text-sm text-slate-400 mt-1">
+                                            <p className="text-gray-900 font-medium">{alert.message}</p>
+                                            <p className="text-sm text-gray-700 mt-1">
                                                 {formatDate(alert.timestamp)}
                                             </p>
                                         </div>
                                         <span
                                             className={`px-3 py-1 rounded-full text-xs font-semibold ${alert.severity === 'critical'
-                                                ? 'bg-red-500 text-white'
-                                                : 'bg-orange-500 text-white'
+                                                ? 'bg-red-500 text-gray-900'
+                                                : 'bg-orange-500 text-gray-900'
                                                 }`}
                                         >
                                             {alert.severity.toUpperCase()}
@@ -118,27 +118,27 @@ const Analytics = () => {
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-slate-700">
-                                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Timestamp</th>
-                                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Action</th>
-                                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Status</th>
-                                    <th className="text-left py-3 px-4 text-slate-400 font-medium">Risk Score</th>
-                                    <th className="text-left py-3 px-4 text-slate-400 font-medium">IP Address</th>
+                                    <th className="text-left py-3 px-4 text-gray-700 font-medium">Timestamp</th>
+                                    <th className="text-left py-3 px-4 text-gray-700 font-medium">Action</th>
+                                    <th className="text-left py-3 px-4 text-gray-700 font-medium">Status</th>
+                                    <th className="text-left py-3 px-4 text-gray-700 font-medium">Risk Score</th>
+                                    <th className="text-left py-3 px-4 text-gray-700 font-medium">IP Address</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {auditLogs.length === 0 ? (
                                     <tr>
-                                        <td colSpan="5" className="text-center py-8 text-slate-400">
+                                        <td colSpan="5" className="text-center py-8 text-gray-700">
                                             No audit logs available
                                         </td>
                                     </tr>
                                 ) : (
                                     auditLogs.map((log) => (
                                         <tr key={log.id} className="border-b border-slate-700/50 hover:bg-slate-800/50">
-                                            <td className="py-3 px-4 text-slate-300 text-sm">
+                                            <td className="py-3 px-4 text-gray-900 text-sm">
                                                 {formatDate(log.timestamp)}
                                             </td>
-                                            <td className="py-3 px-4 text-white text-sm">{log.action}</td>
+                                            <td className="py-3 px-4 text-gray-900 text-sm">{log.action}</td>
                                             <td className="py-3 px-4">
                                                 <span
                                                     className={`px-2 py-1 rounded-full text-xs font-medium ${log.success
@@ -165,7 +165,7 @@ const Analytics = () => {
                                                     <span className="text-slate-500">-</span>
                                                 )}
                                             </td>
-                                            <td className="py-3 px-4 text-slate-400 text-sm">
+                                            <td className="py-3 px-4 text-gray-700 text-sm">
                                                 {log.ip_address || '-'}
                                             </td>
                                         </tr>
@@ -181,10 +181,10 @@ const Analytics = () => {
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                         <Card className="max-w-2xl w-full max-h-[80vh] overflow-y-auto">
                             <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-bold text-white">Compliance Report</h2>
+                                <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
                                 <button
                                     onClick={() => setShowReport(false)}
-                                    className="text-slate-400 hover:text-white text-2xl"
+                                    className="text-gray-700 hover:text-gray-900 text-2xl"
                                 >
                                     ×
                                 </button>
@@ -192,44 +192,44 @@ const Analytics = () => {
 
                             <div className="space-y-6">
                                 <div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">Period</h3>
-                                    <p className="text-slate-300">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Period</h3>
+                                    <p className="text-gray-900">
                                         {new Date(complianceReport.period.start).toLocaleDateString()} - {new Date(complianceReport.period.end).toLocaleDateString()}
                                     </p>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">Summary</h3>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Summary</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-slate-400 text-sm">Total Actions</p>
-                                            <p className="text-white text-xl font-bold">{complianceReport.summary.total_actions}</p>
+                                            <p className="text-gray-700 text-sm">Total Actions</p>
+                                            <p className="text-gray-900 text-xl font-bold">{complianceReport.summary.total_actions}</p>
                                         </div>
                                         <div>
-                                            <p className="text-slate-400 text-sm">Success Rate</p>
+                                            <p className="text-gray-700 text-sm">Success Rate</p>
                                             <p className="text-green-500 text-xl font-bold">{complianceReport.summary.success_rate}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">Security</h3>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Security</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-slate-400 text-sm">High Risk Actions</p>
+                                            <p className="text-gray-700 text-sm">High Risk Actions</p>
                                             <p className="text-red-500 text-xl font-bold">{complianceReport.security.high_risk_actions}</p>
                                         </div>
                                         <div>
-                                            <p className="text-slate-400 text-sm">MFA Compliance</p>
+                                            <p className="text-gray-700 text-sm">MFA Compliance</p>
                                             <p className="text-blue-500 text-xl font-bold">{complianceReport.security.mfa_compliance_rate}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">Encryption</h3>
-                                    <p className="text-slate-300">
-                                        Total Encrypted Items: <span className="text-white font-bold">{complianceReport.encryption.total_encrypted_items}</span>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Encryption</h3>
+                                    <p className="text-gray-900">
+                                        Total Encrypted Items: <span className="text-gray-900 font-bold">{complianceReport.encryption.total_encrypted_items}</span>
                                     </p>
                                 </div>
                             </div>

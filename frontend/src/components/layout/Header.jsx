@@ -27,6 +27,7 @@ const Header = () => {
         { name: 'Encryption', path: '/encryption', icon: LockClosedIcon },
         { name: 'Policies', path: '/policies', icon: ShieldCheckIcon },
         { name: 'Analytics', path: '/analytics', icon: ChartBarIcon },
+        { name: 'Benchmarks', path: '/benchmarks', icon: ChartBarIcon },
     ];
 
     // Add admin link for admin users
@@ -35,16 +36,16 @@ const Header = () => {
     }
 
     return (
-        <header className="bg-slate-800 border-b border-slate-700">
+        <header className="bg-white border-b border-gray-200 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <div className="flex items-center">
                         <Link to="/" className="flex items-center space-x-3">
-                            <div className="h-8 w-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                                 <ShieldCheckIcon className="h-5 w-5 text-white" />
                             </div>
-                            <span className="text-xl font-bold text-white hidden md:block">
+                            <span className="text-xl font-bold text-gray-900 hidden md:block">
                                 Adaptive Crypto
                             </span>
                         </Link>
@@ -61,7 +62,7 @@ const Header = () => {
                                     to={item.path}
                                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${isActive
                                         ? 'bg-blue-600 text-white'
-                                        : 'text-slate-400 hover:text-white hover:bg-slate-700'
+                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                                         }`}
                                 >
                                     <Icon className="h-5 w-5" />
@@ -74,12 +75,12 @@ const Header = () => {
                     {/* User Menu */}
                     <div className="flex items-center space-x-4">
                         <div className="text-right hidden md:block">
-                            <div className="text-sm font-medium text-white">{user?.username}</div>
-                            <div className="text-xs text-slate-400 capitalize">{user?.role}</div>
+                            <div className="text-sm font-medium text-gray-900">{user?.username}</div>
+                            <div className="text-xs text-gray-500 capitalize">{user?.role}</div>
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
+                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                             title="Logout"
                         >
                             <ArrowRightOnRectangleIcon className="h-5 w-5" />

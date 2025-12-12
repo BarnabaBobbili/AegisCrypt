@@ -52,7 +52,7 @@ const MFASetup = () => {
 
     if (success) {
         return (
-            <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
                 <Card className="max-w-md w-full text-center">
                     <ShieldCheckIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
                     <h1 className="text-2xl font-bold text-white mb-2">MFA Enabled!</h1>
@@ -63,9 +63,9 @@ const MFASetup = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-2xl mx-auto">
-                <h1 className="text-3xl font-bold text-white mb-8">Enable Multi-Factor Authentication</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">Enable Multi-Factor Authentication</h1>
 
                 {!enrollmentData ? (
                     <Card>

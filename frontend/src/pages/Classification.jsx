@@ -112,25 +112,25 @@ const Classification = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-4xl mx-auto">
                 <div className="flex items-center gap-3 mb-8">
                     <DocumentTextIcon className="h-8 w-8 text-blue-500" />
-                    <h1 className="text-3xl font-bold text-white">Data Classification</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Data Classification</h1>
                 </div>
 
                 {/* Classification Form */}
                 <Card className="mb-6">
                     <form onSubmit={handleClassify} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                            <label className="block text-sm font-medium text-gray-900 mb-2">
                                 Enter Text to Classify
                             </label>
                             <textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
                                 placeholder="Enter text to analyze... (e.g., 'Customer SSN: 123-45-6789')"
-                                className="w-full px-4 py-3 bg-slate-800 text-white rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500 min-h-[120px] resize-y"
+                                className="w-full px-4 py-3 bg-white text-gray-900 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 min-h-[120px] resize-y"
                             />
                         </div>
 
@@ -149,22 +149,22 @@ const Classification = () => {
                 {/* Classification Result */}
                 {classificationResult && (
                     <div className="space-y-6">
-                        <Card className="bg-slate-800/50 border-2 border-blue-500/30">
+                        <Card className="bg-white border-2 border-blue-500">
                             <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-xl font-bold text-white">Classification Result</h2>
+                                <h2 className="text-xl font-bold text-gray-900">Classification Result</h2>
                                 <CheckCircleIcon className="h-6 w-6 text-green-500" />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <p className="text-slate-400 text-sm mb-1">Sensitivity Level</p>
+                                    <p className="text-gray-700 text-sm mb-1">Sensitivity Level</p>
                                     <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold bg-${getSensitivityColor(classificationResult.sensitivity_level)}-500/20 text-${getSensitivityColor(classificationResult.sensitivity_level)}-400 border border-${getSensitivityColor(classificationResult.sensitivity_level)}-500/30`}>
                                         {getSensitivityLabel(classificationResult.sensitivity_level)}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="text-slate-400 text-sm mb-1">Confidence</p>
-                                    <p className="text-white font-semibold">
+                                    <p className="text-gray-700 text-sm mb-1">Confidence</p>
+                                    <p className="text-gray-900 font-semibold">
                                         {(classificationResult.confidence_score * 100).toFixed(1)}%
                                     </p>
                                 </div>
@@ -173,30 +173,30 @@ const Classification = () => {
 
                         {/* Recommended Cryptographic Policy */}
                         {policyDetails && (
-                            <Card className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-blue-500/30">
+                            <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-500">
                                 <div className="flex items-center gap-2 mb-4">
                                     <LockClosedIcon className="h-6 w-6 text-blue-500" />
-                                    <h2 className="text-xl font-bold text-white">Recommended Cryptographic Policy</h2>
+                                    <h2 className="text-xl font-bold text-gray-900">Recommended Cryptographic Policy</h2>
                                 </div>
 
-                                <p className="text-slate-300 text-sm mb-4">{policyDetails.description}</p>
+                                <p className="text-gray-900 text-sm mb-4">{policyDetails.description}</p>
 
                                 <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="bg-slate-800/50 p-3 rounded-lg">
-                                        <p className="text-slate-400 text-xs mb-1">Encryption Algorithm</p>
-                                        <p className="text-white font-mono text-sm">{policyDetails.encryption}</p>
+                                    <div className="bg-gray-100 p-3 rounded-lg">
+                                        <p className="text-gray-700 text-xs mb-1">Encryption Algorithm</p>
+                                        <p className="text-gray-900 font-mono text-sm">{policyDetails.encryption}</p>
                                     </div>
-                                    <div className="bg-slate-800/50 p-3 rounded-lg">
-                                        <p className="text-slate-400 text-xs mb-1">Hash Algorithm</p>
-                                        <p className="text-white font-mono text-sm">{policyDetails.hash}</p>
+                                    <div className="bg-gray-100 p-3 rounded-lg">
+                                        <p className="text-gray-700 text-xs mb-1">Hash Algorithm</p>
+                                        <p className="text-gray-900 font-mono text-sm">{policyDetails.hash}</p>
                                     </div>
-                                    <div className="bg-slate-800/50 p-3 rounded-lg">
-                                        <p className="text-slate-400 text-xs mb-1">Digital Signature</p>
-                                        <p className="text-white font-mono text-sm">{policyDetails.signature}</p>
+                                    <div className="bg-gray-100 p-3 rounded-lg">
+                                        <p className="text-gray-700 text-xs mb-1">Digital Signature</p>
+                                        <p className="text-gray-900 font-mono text-sm">{policyDetails.signature}</p>
                                     </div>
-                                    <div className="bg-slate-800/50 p-3 rounded-lg">
-                                        <p className="text-slate-400 text-xs mb-1">MFA Requirement</p>
-                                        <p className="text-white font-mono text-sm">{policyDetails.mfa}</p>
+                                    <div className="bg-gray-100 p-3 rounded-lg">
+                                        <p className="text-gray-700 text-xs mb-1">MFA Requirement</p>
+                                        <p className="text-gray-900 font-mono text-sm">{policyDetails.mfa}</p>
                                     </div>
                                 </div>
 
@@ -216,8 +216,8 @@ const Classification = () => {
                 {/* Info Card */}
                 {!classificationResult && (
                     <Card className="bg-blue-500/5 border-blue-500/20">
-                        <h3 className="text-lg font-semibold text-white mb-2">How it works</h3>
-                        <ul className="text-slate-300 text-sm space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">How it works</h3>
+                        <ul className="text-gray-900 text-sm space-y-2">
                             <li>• Enter text to analyze its sensitivity level</li>
                             <li>• AI classifier determines: Public, Internal, Confidential, or Highly Sensitive</li>
                             <li>• View the recommended cryptographic policy for that level</li>

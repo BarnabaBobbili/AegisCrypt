@@ -39,9 +39,12 @@ from app.api.deps import (
 from app.services.audit_service import AuditService
 from app.utils.logger import logger
 from app.config import settings
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
+limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)

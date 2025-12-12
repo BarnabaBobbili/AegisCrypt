@@ -3,19 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { analyticsService } from '../services/analytics';
 import { encryptionService } from '../services/encryption';
 import mfaService from '../services/mfa';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import { formatNumber, formatDate } from '../utils/helpers';
 import {
     DocumentTextIcon,
     ShieldCheckIcon,
-    KeyIcon,
-    UserGroupIcon,
     LockClosedIcon,
+    UserGroupIcon,
     ChartBarIcon,
 } from '@heroicons/react/24/outline';
-import { LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
@@ -69,73 +66,72 @@ const Dashboard = () => {
             title: 'Total Actions',
             value: formatNumber(stats?.total_actions || 0),
             icon: ChartBarIcon,
-            color: 'blue',
+            bgColor: 'bg-blue-50',
+            iconColor: 'text-blue-600',
         },
         {
             title: 'Encryptions',
             value: formatNumber(stats?.encryptions || 0),
             icon: LockClosedIcon,
-            color: 'green',
+            bgColor: 'bg-green-50',
+            iconColor: 'text-green-600',
         },
         {
             title: 'Classifications',
             value: formatNumber(stats?.classifications || 0),
             icon: DocumentTextIcon,
-            color: 'purple',
+            bgColor: 'bg-purple-50',
+            iconColor: 'text-purple-600',
         },
         {
             title: 'Active Users',
             value: formatNumber(stats?.unique_users || 0),
             icon: UserGroupIcon,
-            color: 'orange',
+            bgColor: 'bg-orange-50',
+            iconColor: 'text-orange-600',
         },
     ];
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold text-white mb-8">Dashboard</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
 
                 {/* MFA Status Banner */}
                 {mfaStatus && !mfaStatus.mfa_enabled && (
-                    <div className="mb-6">
-                        <Card className="bg-blue-500/10 border-blue-500/30">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <ShieldCheckIcon className="h-6 w-6 text-blue-500" />
-                                    <div>
-                                        <h3 className="text-white font-semibold">Secure Your Account</h3>
-                                        <p className="text-slate-300 text-sm">Enable two-factor authentication for enhanced security</p>
-                                    </div>
+                    <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <ShieldCheckIcon className="h-6 w-6 text-blue-600" />
+                                <div>
+                                    <h3 className="text-gray-900 font-semibold">Secure Your Account</h3>
+                                    <p className="text-gray-600 text-sm">Enable two-factor authentication for enhanced security</p>
                                 </div>
-                                <Button
-                                    variant="primary"
-                                    size="sm"
-                                    onClick={() => navigate('/mfa/setup')}
-                                >
-                                    Enable MFA
-                                </Button>
                             </div>
-                        </Card>
+                            <button
+                                onClick={() => navigate('/mfa/setup')}
+                                className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                            >
+                                Enable MFA
+                            </button>
+                        </div>
                     </div>
                 )}
 
                 {mfaStatus && mfaStatus.mfa_enabled && (
-                    <div className="mb-6">
-                        <Card className="bg-green-500/10 border-green-500/30">
-                            <div className="flex items-center gap-3">
-                                <ShieldCheckIcon className="h-6 w-6 text-green-500" />
-                                <div>
-                                    <h3 className="text-white font-semibold">MFA Enabled ✓</h3>
-                                    <p className="text-slate-300 text-sm">
-                                        Your account is protected with two-factor authentication
-                                        {mfaStatus.backup_codes_remaining > 0 &&
-                                            ` • ${mfaStatus.backup_codes_remaining} backup codes remaining`
-                                        }
-                                    </p>
-                                </div>
+                    <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4">
+                        <div className="flex items-center gap-3">
+                            <ShieldCheckIcon className="h-6 w-6 text-green-600" />
+                            <div>
+                                <h3 className="text-gray-900 font-semibold">MFA Enabled ✓</h3>
+                                <p className="text-gray-600 text-sm">
+                                    Your account is protected with two-factor authentication
+                                    {mfaStatus.backup_codes_remaining > 0 &&
+                                        ` • ${mfaStatus.backup_codes_remaining} backup codes remaining`
+                                    }
+                                </p>
                             </div>
-                        </Card>
+                        </div>
                     </div>
                 )}
 
@@ -144,24 +140,25 @@ const Dashboard = () => {
                     {statCards.map((stat, index) => {
                         const Icon = stat.icon;
                         return (
-                            <Card key={index} glass className="animate-slide-in">
+                            <div key={index} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <p className="text-slate-400 text-sm mb-1">{stat.title}</p>
-                                        <p className="text-3xl font-bold text-white">{stat.value}</p>
+                                        <p className="text-gray-600 text-sm mb-1">{stat.title}</p>
+                                        <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
                                     </div>
-                                    <div className={`p-3 bg-${stat.color}-500/20 rounded-lg`}>
-                                        <Icon className={`h-8 w-8 text-${stat.color}-500`} />
+                                    <div className={`p-3 ${stat.bgColor} rounded-lg`}>
+                                        <Icon className={`h-8 w-8 ${stat.iconColor}`} />
                                     </div>
                                 </div>
-                            </Card>
+                            </div>
                         );
                     })}
                 </div>
 
                 {/* Charts */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <Card title="Data Distribution by Sensitivity">
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Distribution by Sensitivity</h3>
                         <ResponsiveContainer width="100%" height={300}>
                             <PieChart>
                                 <Pie
@@ -181,57 +178,59 @@ const Dashboard = () => {
                                 <Tooltip />
                             </PieChart>
                         </ResponsiveContainer>
-                    </Card>
+                    </div>
 
-                    <Card title="Security Statistics">
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Security Statistics</h3>
                         <div className="space-y-4">
-                            <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                                <span className="text-slate-300">Login Success Rate</span>
-                                <span className="text-green-500 font-semibold">
+                            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span className="text-gray-700">Login Success Rate</span>
+                                <span className="text-green-600 font-semibold">
                                     {stats?.login_attempts > 0
                                         ? Math.round((stats.login_successes / stats.login_attempts) * 100)
                                         : 0}%
                                 </span>
                             </div>
-                            <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                                <span className="text-slate-300">High Risk Actions</span>
-                                <span className="text-red-500 font-semibold">{stats?.high_risk_actions || 0}</span>
+                            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span className="text-gray-700">High Risk Actions</span>
+                                <span className="text-red-600 font-semibold">{stats?.high_risk_actions || 0}</span>
                             </div>
-                            <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                                <span className="text-slate-300">MFA Enforcements</span>
-                                <span className="text-orange-500 font-semibold">{stats?.mfa_enforced || 0}</span>
+                            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span className="text-gray-700">MFA Enforcements</span>
+                                <span className="text-orange-600 font-semibold">{stats?.mfa_enforced || 0}</span>
                             </div>
-                            <div className="flex justify-between items-center p-3 bg-slate-700/50 rounded-lg">
-                                <span className="text-slate-300">Unique IP Addresses</span>
-                                <span className="text-blue-500 font-semibold">{stats?.unique_ips || 0}</span>
+                            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span className="text-gray-700">Unique IP Addresses</span>
+                                <span className="text-blue-600 font-semibold">{stats?.unique_ips || 0}</span>
                             </div>
                         </div>
-                    </Card>
+                    </div>
                 </div>
 
                 {/* Recent Activity */}
-                <Card title="Recent Encrypted Data">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Encrypted Data</h3>
                     {recentData.length === 0 ? (
-                        <div className="text-center py-8 text-slate-400">
+                        <div className="text-center py-8 text-gray-500">
                             No data items yet. Start by encrypting some data!
                         </div>
                     ) : (
                         <div className="space-y-3">
                             {recentData.map((item) => (
-                                <div key={item.id} className="p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-color">
+                                <div key={item.id} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-3">
-                                            <LockClosedIcon className="h-5 w-5 text-blue-500" />
+                                            <LockClosedIcon className="h-5 w-5 text-blue-600" />
                                             <div>
-                                                <p className="text-white font-medium">Data Item #{item.id}</p>
-                                                <p className="text-sm text-slate-400">{formatDate(item.created_at)}</p>
+                                                <p className="text-gray-900 font-medium">Data Item #{item.id}</p>
+                                                <p className="text-sm text-gray-500">{formatDate(item.created_at)}</p>
                                             </div>
                                         </div>
                                         <div>
-                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${item.sensitivity_level === 'highly_sensitive' ? 'bg-red-500/20 text-red-500' :
-                                                item.sensitivity_level === 'confidential' ? 'bg-orange-500/20 text-orange-500' :
-                                                    item.sensitivity_level === 'internal' ? 'bg-blue-500/20 text-blue-500' :
-                                                        'bg-green-500/20 text-green-500'
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${item.sensitivity_level === 'highly_sensitive' ? 'bg-red-100 text-red-800' :
+                                                    item.sensitivity_level === 'confidential' ? 'bg-orange-100 text-orange-800' :
+                                                        item.sensitivity_level === 'internal' ? 'bg-blue-100 text-blue-800' :
+                                                            'bg-green-100 text-green-800'
                                                 }`}>
                                                 {item.sensitivity_level.replace('_', ' ').toUpperCase()}
                                             </span>
@@ -241,7 +240,7 @@ const Dashboard = () => {
                             ))}
                         </div>
                     )}
-                </Card>
+                </div>
             </div>
         </div>
     );

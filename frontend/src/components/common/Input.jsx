@@ -11,25 +11,25 @@ const Input = ({
     return (
         <div className="w-full">
             {label && (
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                     {label}
                 </label>
             )}
             <input
                 className={clsx(
-                    'w-full px-4 py-2 bg-slate-800 border rounded-lg text-white placeholder-slate-500',
-                    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                    'w-full px-4 py-3 bg-white border rounded-lg text-gray-900 placeholder-gray-400',
+                    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                     'transition-all duration-200',
-                    error ? 'border-red-500' : 'border-slate-700',
+                    error ? 'border-red-500' : 'border-gray-300',
                     className
                 )}
                 {...props}
             />
             {error && (
-                <p className="mt-1 text-sm text-red-500">{error}</p>
+                <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
             {helperText && !error && (
-                <p className="mt-1 text-sm text-slate-500">{helperText}</p>
+                <p className="mt-1 text-sm text-gray-500">{helperText}</p>
             )}
         </div>
     );

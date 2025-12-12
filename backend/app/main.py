@@ -14,7 +14,11 @@ import time
 from app.config import settings
 from app.database import init_db
 from app.utils.logger import logger, log_request
-from app.api.v1 import auth, classification, encryption, policies, analytics, admin, export
+from app.api.v1 import auth, classification, encryption, policies, analytics, admin, export, public, benchmarks
+from app.middleware.security_headers import SecurityHeadersMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 
 # Create FastAPI application
@@ -25,6 +29,14 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+# Initialize rate limiter
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Add security headers middleware
+app.add_middleware(SecurityHeadersMiddleware)
 
 # Configure CORS - Allow all localhost origins for development
 app.add_middleware(
@@ -146,6 +158,8 @@ app.include_router(policies.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
 app.include_router(export.router, prefix="/api/v1")
+app.include_router(public.router, prefix="/api/v1")
+app.include_router(benchmarks.router, prefix="/api/v1")  # Public endpoints
 
 
 # Run with: uvicorn app.main:app --reload

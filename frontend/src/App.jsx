@@ -13,14 +13,19 @@ import Policies from './pages/Policies';
 import Analytics from './pages/Analytics';
 import UserManagement from './pages/UserManagement';
 import MFASetup from './pages/MFASetup';
+import PublicEncrypt from './pages/PublicEncrypt';
+import PublicDecrypt from './pages/PublicDecrypt';
+import BenchmarkDashboard from './pages/BenchmarkDashboard';
 
 function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    {/* Public Routes */}
+                    {/* Public Routes (No Authentication Required) */}
                     <Route path="/login" element={<Login />} />
+                    <Route path="/encrypt" element={<PublicEncrypt />} />
+                    <Route path="/share/:token" element={<PublicDecrypt />} />
 
                     {/* Protected Routes */}
                     <Route
@@ -35,6 +40,7 @@ function App() {
                                         <Route path="/encryption" element={<Encryption />} />
                                         <Route path="/policies" element={<Policies />} />
                                         <Route path="/analytics" element={<Analytics />} />
+                                        <Route path="/benchmarks" element={<BenchmarkDashboard />} />
                                         <Route path="/admin/users" element={<UserManagement />} />
                                         <Route path="/mfa/setup" element={<MFASetup />} />
                                         <Route path="*" element={<Navigate to="/" replace />} />

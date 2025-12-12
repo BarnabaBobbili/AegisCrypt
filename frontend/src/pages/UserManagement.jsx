@@ -109,10 +109,10 @@ const UserManagement = () => {
     if (loading) return <Loading />;
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-white">User Management</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
                     <Button
                         variant="primary"
                         onClick={() => setShowCreateModal(true)}
@@ -128,26 +128,26 @@ const UserManagement = () => {
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-slate-700">
-                                    <th className="text-left p-4 text-slate-300">ID</th>
-                                    <th className="text-left p-4 text-slate-300">Username</th>
-                                    <th className="text-left p-4 text-slate-300">Email</th>
-                                    <th className="text-left p-4 text-slate-300">Role</th>
-                                    <th className="text-left p-4 text-slate-300">Status</th>
-                                    <th className="text-left p-4 text-slate-300">Created</th>
-                                    <th className="text-right p-4 text-slate-300">Actions</th>
+                                    <th className="text-left p-4 text-gray-900">ID</th>
+                                    <th className="text-left p-4 text-gray-900">Username</th>
+                                    <th className="text-left p-4 text-gray-900">Email</th>
+                                    <th className="text-left p-4 text-gray-900">Role</th>
+                                    <th className="text-left p-4 text-gray-900">Status</th>
+                                    <th className="text-left p-4 text-gray-900">Created</th>
+                                    <th className="text-right p-4 text-gray-900">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
                                     <tr key={user.id} className="border-b border-slate-700 hover:bg-slate-700/50">
-                                        <td className="p-4 text-white">{user.id}</td>
-                                        <td className="p-4 text-white">{user.username}</td>
-                                        <td className="p-4 text-slate-300">{user.email}</td>
+                                        <td className="p-4 text-gray-900">{user.id}</td>
+                                        <td className="p-4 text-gray-900">{user.username}</td>
+                                        <td className="p-4 text-gray-900">{user.email}</td>
                                         <td className="p-4">
                                             <select
                                                 value={user.role}
                                                 onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                                className="bg-slate-700 text-white rounded px-2 py-1 text-sm border border-slate-600 focus:outline-none focus:border-blue-500"
+                                                className="bg-white text-gray-900 rounded px-2 py-1 text-sm border border-gray-300 focus:outline-none focus:border-blue-500"
                                             >
                                                 <option value="admin">Admin</option>
                                                 <option value="manager">Manager</option>
@@ -161,7 +161,7 @@ const UserManagement = () => {
                                                 {user.is_active ? 'Active' : 'Inactive'}
                                             </span>
                                         </td>
-                                        <td className="p-4 text-slate-300 text-sm">{formatDate(user.created_at)}</td>
+                                        <td className="p-4 text-gray-900 text-sm">{formatDate(user.created_at)}</td>
                                         <td className="p-4">
                                             <div className="flex justify-end gap-2">
                                                 <button
@@ -192,7 +192,7 @@ const UserManagement = () => {
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                         <Card className="max-w-md w-full">
                             <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-bold text-white">
+                                <h2 className="text-2xl font-bold text-gray-900">
                                     {editingUser ? 'Edit User' : 'Create New User'}
                                 </h2>
                                 <button onClick={resetForm} className="text-slate-400 hover:text-white">
@@ -202,53 +202,53 @@ const UserManagement = () => {
 
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label className="block text-sm font-medium text-gray-900 mb-2">
                                         Username
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.username}
                                         onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                        className="w-full px-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
+                                        className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
                                         required
                                         disabled={editingUser}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label className="block text-sm font-medium text-gray-900 mb-2">
                                         Email
                                     </label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
+                                        className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label className="block text-sm font-medium text-gray-900 mb-2">
                                         Password {editingUser && '(leave empty to keep current)'}
                                     </label>
                                     <input
                                         type="password"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full px-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
+                                        className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
                                         required={!editingUser}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    <label className="block text-sm font-medium text-gray-900 mb-2">
                                         Role
                                     </label>
                                     <select
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        className="w-full px-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
+                                        className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg border border-slate-600 focus:outline-none focus:border-blue-500"
                                     >
                                         <option value="admin">Admin</option>
                                         <option value="manager">Manager</option>
@@ -264,7 +264,7 @@ const UserManagement = () => {
                                         onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                                         className="mr-2"
                                     />
-                                    <label className="text-sm text-slate-300">
+                                    <label className="text-sm text-gray-900">
                                         Active User
                                     </label>
                                 </div>

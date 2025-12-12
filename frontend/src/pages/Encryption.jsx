@@ -76,9 +76,9 @@ const Encryption = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 p-6">
+        <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold text-white mb-8">Encryption & Decryption</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">Encryption & Decryption</h1>
 
                 {/* Tabs */}
                 <div className="flex space-x-2 mb-6">
@@ -109,19 +109,19 @@ const Encryption = () => {
                     <div className="space-y-6">
                         {/* Classification Info Banner */}
                         {fromClassification && (
-                            <div className="p-4 bg-blue-500/10 border-2 border-blue-500/40 rounded-lg">
+                            <div className="p-4 bg-blue-50 border-2 border-blue-500 rounded-lg">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <LockClosedIcon className="h-5 w-5 text-blue-400" />
-                                    <h3 className="text-blue-400 font-semibold">Ready to Encrypt with Recommended Policy</h3>
+                                    <LockClosedIcon className="h-5 w-5 text-blue-600" />
+                                    <h3 className="text-blue-600 font-semibold">Ready to Encrypt with Recommended Policy</h3>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 text-sm">
                                     <div>
-                                        <span className="text-slate-400">Sensitivity:</span>
-                                        <span className="text-white ml-2 font-medium capitalize">{fromClassification.sensitivity.replace('_', ' ')}</span>
+                                        <span className="text-gray-700">Sensitivity:</span>
+                                        <span className="text-gray-900 ml-2 font-medium capitalize">{fromClassification.sensitivity.replace('_', ' ')}</span>
                                     </div>
                                     <div>
-                                        <span className="text-slate-400">Algorithm:</span>
-                                        <span className="text-white ml-2 font-mono">{fromClassification.policy.encryption}</span>
+                                        <span className="text-gray-700">Algorithm:</span>
+                                        <span className="text-gray-900 ml-2 font-mono">{fromClassification.policy.encryption}</span>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@ const Encryption = () => {
                                 value={encryptText}
                                 onChange={(e) => setEncryptText(e.target.value)}
                                 placeholder="Enter data to encrypt..."
-                                className="w-full h-40 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                                className="w-full h-40 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                             />
                             <div className="mt-4 flex justify-end">
                                 <Button onClick={handleEncrypt} loading={loading} disabled={!encryptText.trim()}>
@@ -146,7 +146,7 @@ const Encryption = () => {
                                 <div className="space-y-4">
                                     <div>
                                         <div className="flex items-center justify-between mb-2">
-                                            <p className="text-slate-400 text-sm">Encrypted Data</p>
+                                            <p className="text-gray-700 text-sm">Encrypted Data</p>
                                             <button
                                                 onClick={() => copyToClipboard(encryptResult.encrypted_data)}
                                                 className="text-blue-500 hover:text-blue-400 text-sm flex items-center"
@@ -155,19 +155,19 @@ const Encryption = () => {
                                                 Copy
                                             </button>
                                         </div>
-                                        <div className="p-3 bg-slate-700 rounded-lg text-white font-mono text-sm break-all">
+                                        <div className="p-3 bg-gray-100 rounded-lg text-gray-900 font-mono text-sm break-all">
                                             {encryptResult.encrypted_data.substring(0, 100)}...
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-slate-400 text-sm mb-1">Algorithm</p>
-                                            <p className="text-white">{encryptResult.encryption_algorithm}</p>
+                                            <p className="text-gray-700 text-sm mb-1">Algorithm</p>
+                                            <p className="text-gray-900">{encryptResult.encryption_algorithm}</p>
                                         </div>
                                         <div>
-                                            <p className="text-slate-400 text-sm mb-1">Hash Algorithm</p>
-                                            <p className="text-white">{encryptResult.hash_algorithm}</p>
+                                            <p className="text-gray-700 text-sm mb-1">Hash Algorithm</p>
+                                            <p className="text-gray-900">{encryptResult.hash_algorithm}</p>
                                         </div>
                                     </div>
 
@@ -215,22 +215,22 @@ const Encryption = () => {
                             <Card title="Decryption Result" glass>
                                 <div className="space-y-4">
                                     <div>
-                                        <p className="text-slate-400 text-sm mb-2">Decrypted Text</p>
-                                        <div className="p-4 bg-slate-700 rounded-lg text-white">
+                                        <p className="text-gray-700 text-sm mb-2">Decrypted Text</p>
+                                        <div className="p-4 bg-gray-100 rounded-lg text-gray-900">
                                             {decryptResult.decrypted_text}
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4 text-sm">
                                         <div className="flex items-center space-x-2">
-                                            <span className="text-slate-400">Hash Verified:</span>
+                                            <span className="text-gray-700">Hash Verified:</span>
                                             <span className={decryptResult.hash_verified ? 'text-green-500' : 'text-red-500'}>
                                                 {decryptResult.hash_verified ? '✓ Yes' : '✗ No'}
                                             </span>
                                         </div>
                                         {decryptResult.signature_verified !== null && (
                                             <div className="flex items-center space-x-2">
-                                                <span className="text-slate-400">Signature Verified:</span>
+                                                <span className="text-gray-700">Signature Verified:</span>
                                                 <span className={decryptResult.signature_verified ? 'text-green-500' : 'text-red-500'}>
                                                     {decryptResult.signature_verified ? '✓ Yes' : '✗ No'}
                                                 </span>
