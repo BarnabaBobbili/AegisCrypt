@@ -1,17 +1,19 @@
 import React from 'react';
-import HeroSection from '../components/landing/HeroSection';
+import Navbar from '../components/landing/Navbar';
+import Hero from '../components/landing/Hero';
 import DemoSection from '../components/landing/DemoSection';
-import HowItWorks from '../components/landing/HowItWorks';
-import FeaturesGrid from '../components/landing/FeaturesGrid';
+import Features from '../components/landing/Features';
+import Pricing from '../components/landing/Pricing';
 import Footer from '../components/landing/Footer';
 
 const Landing = () => {
     return (
-        <div className="min-h-screen bg-white">
-            <HeroSection />
+        <div className="min-h-screen bg-[#0a0a0f]">
+            <Navbar />
+            <Hero />
             <DemoSection />
-            <HowItWorks />
-            <FeaturesGrid />
+            <Features />
+            <Pricing />
             <Footer />
         </div>
     );
