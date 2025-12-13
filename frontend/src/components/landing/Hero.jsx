@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 import {
     ShieldCheckIcon,
     LockClosedIcon,
@@ -12,42 +13,43 @@ import {
 const Hero = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const { isDark } = useTheme();
 
     const scrollToDemo = () => {
         document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0f] pt-20">
+        <div className={`relative min-h-screen flex items-center justify-center overflow-hidden ${isDark ? 'bg-[#0a0a0f]' : 'bg-gradient-to-b from-gray-50 to-white'} pt-20`}>
             {/* Animated Gradient Background */}
-            <div className="absolute inset-0 gradient-mesh-bg opacity-50"></div>
+            <div className={`absolute inset-0 gradient-mesh-bg ${isDark ? 'opacity-50' : 'opacity-30'}`}></div>
 
             {/* Animated gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full blur-3xl animate-float"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+            <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${isDark ? 'bg-indigo-600/30' : 'bg-indigo-400/20'} rounded-full blur-3xl animate-float`}></div>
+            <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${isDark ? 'bg-purple-600/20' : 'bg-purple-400/15'} rounded-full blur-3xl animate-float`} style={{ animationDelay: '1s' }}></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Left Column - Content */}
                     <div className="text-center lg:text-left">
                         {/* Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6 animate-fade-in-up">
-                            <SparklesIcon className="h-4 w-4 text-indigo-400" />
-                            <span className="text-sm font-medium text-indigo-300">
+                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-indigo-500/10 border-indigo-500/20' : 'bg-indigo-100 border-indigo-200'} border mb-6 animate-fade-in-up`}>
+                            <SparklesIcon className={`h-4 w-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
+                            <span className={`text-sm font-medium ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}>
                                 AI-Powered Security
                             </span>
                         </div>
 
                         {/* Headline */}
                         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in-up stagger-1">
-                            <span className="text-white">Protect Your Data with </span>
+                            <span className={isDark ? 'text-white' : 'text-gray-900'}>Protect Your Data with </span>
                             <span className="gradient-text block mt-2">
                                 AI-Powered Encryption
                             </span>
                         </h1>
 
                         {/* Subheadline */}
-                        <p className="text-xl text-gray-400 mb-8 max-w-2xl animate-fade-in-up stagger-2">
+                        <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-8 max-w-2xl animate-fade-in-up stagger-2`}>
                             Automatically classify sensitivity and apply the right encryption in seconds.
                             No PhD required. Just upload, encrypt, and share securely.
                         </p>
@@ -86,7 +88,7 @@ const Hero = () => {
                         </div>
 
                         {/* Trust Bar */}
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-gray-400 animate-fade-in-up stagger-4">
+                        <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'} animate-fade-in-up stagger-4`}>
                             <div className="flex items-center gap-2">
                                 <div className="flex items-center">
                                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -110,7 +112,7 @@ const Hero = () => {
 
                     {/* Right Column - Interactive Preview */}
                     <div className="relative animate-fade-in-up stagger-5">
-                        <div className="relative glass-card p-8 rounded-2xl glow-border group">
+                        <div className={`relative ${isDark ? 'glass-card' : 'bg-white border-2 border-gray-200 shadow-xl'} p-8 rounded-2xl glow-border group`}>
                             {/* Mock UI Preview */}
                             <div className="space-y-4">
                                 {/* Header */}
@@ -120,8 +122,8 @@ const Hero = () => {
                                             <LockClosedIcon className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
-                                            <div className="text-sm font-semibold text-white">Encryption Engine</div>
-                                            <div className="text-xs text-gray-400">Real-time classification</div>
+                                            <div className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Encryption Engine</div>
+                                            <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Real-time classification</div>
                                         </div>
                                     </div>
                                     <div className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium border border-green-500/30">
@@ -130,34 +132,34 @@ const Hero = () => {
                                 </div>
 
                                 {/* Classification Result */}
-                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-xl p-4 border border-indigo-500/20 animate-fade-in">
+                                <div className={`bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-xl p-4 ${isDark ? 'border-indigo-500/20' : 'border-indigo-300'} border animate-fade-in`}>
                                     <div className="flex items-center justify-between mb-3">
-                                        <span className="text-sm font-medium text-gray-300">Sensitivity Level</span>
+                                        <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Sensitivity Level</span>
                                         <span className="text-sm font-bold text-indigo-400">Confidential</span>
                                     </div>
-                                    <div className="w-full bg-gray-700/50 rounded-full h-2 mb-2">
+                                    <div className={`w-full ${isDark ? 'bg-gray-700/50' : 'bg-gray-200'} rounded-full h-2 mb-2`}>
                                         <div
                                             className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all duration-1000 ease-out"
                                             style={{ width: '85%' }}
                                         ></div>
                                     </div>
-                                    <div className="text-xs text-gray-400">Confidence: 85%</div>
+                                    <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Confidence: 85%</div>
                                 </div>
 
                                 {/* Encryption Details */}
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 hover:border-indigo-500/30 transition-colors">
-                                        <div className="text-xs text-gray-400 mb-1">Algorithm</div>
-                                        <div className="text-sm font-semibold text-white font-mono">AES-256-GCM</div>
+                                    <div className={`${isDark ? 'bg-gray-800/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg p-3 border hover:border-indigo-500/30 transition-colors`}>
+                                        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-1`}>Algorithm</div>
+                                        <div className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'} font-mono`}>AES-256-GCM</div>
                                     </div>
-                                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 hover:border-indigo-500/30 transition-colors">
-                                        <div className="text-xs text-gray-400 mb-1">Hash</div>
-                                        <div className="text-sm font-semibold text-white font-mono">SHA-512</div>
+                                    <div className={`${isDark ? 'bg-gray-800/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg p-3 border hover:border-indigo-500/30 transition-colors`}>
+                                        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-1`}>Hash</div>
+                                        <div className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'} font-mono`}>SHA-512</div>
                                     </div>
                                 </div>
 
                                 {/* Mock Progress */}
-                                <div className="flex items-center gap-2 text-sm text-gray-400 animate-pulse">
+                                <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'} animate-pulse`}>
                                     <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
                                     <span>Processing encryption...</span>
                                 </div>
@@ -183,7 +185,7 @@ const Hero = () => {
 
             {/* Scroll Indicator */}
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex items-start justify-center p-2">
+                <div className={`w-6 h-10 border-2 ${isDark ? 'border-gray-600' : 'border-gray-400'} rounded-full flex items-start justify-center p-2`}>
                     <div className="w-1 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
                 </div>
             </div>

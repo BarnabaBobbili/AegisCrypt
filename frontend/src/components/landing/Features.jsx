@@ -1,5 +1,6 @@
 import React from 'react';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import { useTheme } from '../../hooks/useTheme';
 import {
     SparklesIcon,
     LockClosedIcon,
@@ -13,6 +14,7 @@ import {
 
 const Features = () => {
     const [ref, isVisible] = useScrollReveal({ threshold: 0.1 });
+    const { isDark } = useTheme();
 
     const features = [
         {
@@ -60,9 +62,9 @@ const Features = () => {
     ];
 
     return (
-        <div id="features" className="relative bg-[#111118] py-24 px-6 overflow-hidden">
+        <div id="features" className={`relative ${isDark ? 'bg-[#111118]' : 'bg-gray-50'} py-24 px-6 overflow-hidden`}>
             {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
+            <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent`}></div>
 
             <div
                 ref={ref}
@@ -71,10 +73,10 @@ const Features = () => {
             >
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h2 className={`text-4xl md:text-5xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-4`}>
                         Why <span className="gradient-text">Aegis Crypt</span>?
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                    <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-3xl mx-auto`}>
                         Enterprise-grade security meets consumer simplicity
                     </p>
                 </div>
@@ -91,7 +93,7 @@ const Features = () => {
                         return (
                             <div
                                 key={index}
-                                className={`group glass-card p-8 rounded-2xl border border-gray-800 hover:border-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${gridClass} animate-fade-in-up`}
+                                className={`group ${isDark ? 'glass-card border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-indigo-200 shadow-md hover:shadow-xl'} p-8 rounded-2xl border transition-all duration-300 transform hover:scale-105 ${gridClass} animate-fade-in-up`}
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
                                 {/* Icon with gradient background */}
@@ -100,10 +102,10 @@ const Features = () => {
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="text-2xl font-bold text-white mb-3 transition-all duration-300">
+                                <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-3 transition-all duration-300`}>
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed mb-6">
+                                <p className={`${isDark ? 'text-gray-400 group-hover:text-gray-300' : 'text-gray-600 group-hover:text-gray-700'} transition-colors duration-300 leading-relaxed mb-6`}>
                                     {feature.description}
                                 </p>
 
@@ -111,20 +113,20 @@ const Features = () => {
                                 {feature.size === 'wide' && feature.title === 'AI Classification' && (
                                     <div className="mt-4 space-y-3">
                                         {/* Sample classifications with animations */}
-                                        <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
-                                            <code className="text-sm text-gray-300">"SSN: 123-45-6789"</code>
+                                        <div className={`p-3 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
+                                            <code className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>"SSN: 123-45-6789"</code>
                                             <span className="px-3 py-1 bg-red-500/20 text-red-400 text-xs rounded-full border border-red-500/30">
                                                 Highly Sensitive
                                             </span>
                                         </div>
-                                        <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
-                                            <code className="text-sm text-gray-300">"Meeting at 3pm"</code>
+                                        <div className={`p-3 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
+                                            <code className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>"Meeting at 3pm"</code>
                                             <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">
                                                 Public
                                             </span>
                                         </div>
-                                        <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
-                                            <code className="text-sm text-gray-300">"Contract #2024-ABC"</code>
+                                        <div className={`p-3 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
+                                            <code className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>"Contract #2024-ABC"</code>
                                             <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full border border-orange-500/30">
                                                 Confidential
                                             </span>
@@ -132,10 +134,10 @@ const Features = () => {
                                         {/* Accuracy indicator */}
                                         <div className="mt-4 p-3 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg border border-indigo-500/20">
                                             <div className="flex items-center justify-between mb-2">
-                                                <span className="text-sm text-gray-300">Model Accuracy</span>
+                                                <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Model Accuracy</span>
                                                 <span className="text-sm font-bold text-indigo-400">94.8%</span>
                                             </div>
-                                            <div className="w-full bg-gray-700/50 rounded-full h-2">
+                                            <div className={`w-full ${isDark ? 'bg-gray-700/50' : 'bg-gray-200'} rounded-full h-2`}>
                                                 <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full" style={{ width: '94.8%' }}></div>
                                             </div>
                                         </div>
@@ -210,21 +212,21 @@ const Features = () => {
                                 {/* Visual Content for AES-256-GCM */}
                                 {feature.size === 'medium' && feature.title === 'AES-256-GCM' && (
                                     <div className="mt-4 space-y-2">
-                                        <div className="p-2 bg-gray-900/50 rounded border border-gray-700">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded border`}>
                                             <div className="flex items-center justify-between text-xs">
-                                                <span className="text-gray-400">Algorithm</span>
+                                                <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Algorithm</span>
                                                 <code className="text-cyan-400 font-mono">AES-256</code>
                                             </div>
                                         </div>
-                                        <div className="p-2 bg-gray-900/50 rounded border border-gray-700">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded border`}>
                                             <div className="flex items-center justify-between text-xs">
-                                                <span className="text-gray-400">Mode</span>
+                                                <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Mode</span>
                                                 <code className="text-cyan-400 font-mono">GCM</code>
                                             </div>
                                         </div>
-                                        <div className="p-2 bg-gray-900/50 rounded border border-gray-700">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded border`}>
                                             <div className="flex items-center justify-between text-xs">
-                                                <span className="text-gray-400">Key Size</span>
+                                                <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Key Size</span>
                                                 <code className="text-cyan-400 font-mono">256-bit</code>
                                             </div>
                                         </div>
@@ -234,21 +236,21 @@ const Features = () => {
                                 {/* Visual Content for Instant Sharing */}
                                 {feature.size === 'medium' && feature.title === 'Instant Sharing' && (
                                     <div className="mt-4">
-                                        <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700">
+                                        <div className={`p-3 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border`}>
                                             <div className="flex items-center gap-2 mb-2">
                                                 <div className="w-8 h-8 bg-orange-500/20 rounded flex items-center justify-center">
                                                     <svg className="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                                     </svg>
                                                 </div>
-                                                <span className="text-xs text-gray-400">Shareable Link</span>
+                                                <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Shareable Link</span>
                                             </div>
                                             <code className="text-xs text-orange-400 font-mono break-all">
                                                 aegis.link/e/abc123...
                                             </code>
                                             <div className="mt-2 flex items-center justify-between text-xs">
                                                 <span className="text-green-400">✓ Active</span>
-                                                <span className="text-gray-500">7 days</span>
+                                                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>7 days</span>
                                             </div>
                                         </div>
                                     </div>
@@ -265,12 +267,12 @@ const Features = () => {
                                         </div>
                                         {/* Stats */}
                                         <div className="grid grid-cols-2 gap-2 text-xs">
-                                            <div className="p-2 bg-gray-900/50 rounded border border-gray-700">
-                                                <div className="text-gray-400">Files</div>
-                                                <div className="text-white font-bold">1,247</div>
+                                            <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded border`}>
+                                                <div className={isDark ? 'text-gray-400' : 'text-gray-600'}>Files</div>
+                                                <div className={`${isDark ? 'text-white' : 'text-gray-900'} font-bold`}>1,247</div>
                                             </div>
-                                            <div className="p-2 bg-gray-900/50 rounded border border-gray-700">
-                                                <div className="text-gray-400">This Week</div>
+                                            <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded border`}>
+                                                <div className={isDark ? 'text-gray-400' : 'text-gray-600'}>This Week</div>
                                                 <div className="text-green-400 font-bold">+12%</div>
                                             </div>
                                         </div>
@@ -280,26 +282,26 @@ const Features = () => {
                                 {/* Visual Content for Custom Policies */}
                                 {feature.size === 'medium' && feature.title === 'Custom Policies' && (
                                     <div className="mt-4 space-y-2">
-                                        <div className="p-2 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
                                             <div className="flex items-center gap-2">
                                                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                                                <span className="text-xs text-gray-300">PII Data</span>
+                                                <span className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>PII Data</span>
                                             </div>
-                                            <code className="text-xs text-gray-500">AES-256</code>
+                                            <code className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>AES-256</code>
                                         </div>
-                                        <div className="p-2 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
                                             <div className="flex items-center gap-2">
                                                 <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                                                <span className="text-xs text-gray-300">Financial</span>
+                                                <span className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Financial</span>
                                             </div>
-                                            <code className="text-xs text-gray-500">RSA-4096</code>
+                                            <code className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>RSA-4096</code>
                                         </div>
-                                        <div className="p-2 bg-gray-900/50 rounded-lg border border-gray-700 flex items-center justify-between">
+                                        <div className={`p-2 ${isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-lg border flex items-center justify-between`}>
                                             <div className="flex items-center gap-2">
                                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                <span className="text-xs text-gray-300">General</span>
+                                                <span className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>General</span>
                                             </div>
-                                            <code className="text-xs text-gray-500">AES-128</code>
+                                            <code className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>AES-128</code>
                                         </div>
                                     </div>
                                 )}

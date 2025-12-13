@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider, useTheme } from '../hooks/useTheme';
 import Navbar from '../components/landing/Navbar';
 import Hero from '../components/landing/Hero';
 import DemoSection from '../components/landing/DemoSection';
@@ -8,7 +9,17 @@ import Footer from '../components/landing/Footer';
 
 const Landing = () => {
     return (
-        <div className="min-h-screen bg-[#0a0a0f]">
+        <ThemeProvider>
+            <LandingContent />
+        </ThemeProvider>
+    );
+};
+
+const LandingContent = () => {
+    const { isDark } = useTheme();
+
+    return (
+        <div className={`min-h-screen ${isDark ? 'bg-[#0a0a0f]' : 'bg-gray-50'}`}>
             <Navbar />
             <Hero />
             <DemoSection />

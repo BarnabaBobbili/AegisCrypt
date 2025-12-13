@@ -29,7 +29,12 @@ const BenchmarkDashboard = () => {
         loading,
         error,
         running,
+        progress,
+        currentStep,
+        timeRemaining,
+        estimatedDuration,
         runBenchmark,
+        stopBenchmark,
         exportJSON,
         exportCSV
     } = useBenchmarks();
@@ -120,7 +125,6 @@ const BenchmarkDashboard = () => {
                     </p>
                 </div>
 
-                {/* Controls */}
                 <div className="flex flex-wrap gap-4 mb-8">
                     <button
                         onClick={handleRunBenchmark}
@@ -144,6 +148,22 @@ const BenchmarkDashboard = () => {
                             </>
                         )}
                     </button>
+
+                    {running && (
+                        <button
+                            onClick={stopBenchmark}
+                            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 
+                           bg-red-600 text-white font-medium rounded-lg shadow-sm 
+                           hover:bg-red-700 focus:outline-none focus:ring-2 
+                           focus:ring-red-500 focus:ring-offset-2
+                           transition-all duration-200"
+                        >
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Stop
+                        </button>
+                    )}
 
                     {results && (
                         <>
@@ -173,6 +193,47 @@ const BenchmarkDashboard = () => {
                         </>
                     )}
                 </div>
+
+                {/* Progress Indicator */}
+                {running && progress > 0 && (
+                    <div className="mb-6 p-6 bg-white rounded-xl border border-gray-200 shadow-sm animate-scale-in">
+                        {/* Current Step */}
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                                <div className="relative">
+                                    <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-gray-900">{currentStep}</div>
+                                    <div className="text-xs text-gray-600 mt-1">
+                                        {timeRemaining > 0 ? `~${timeRemaining}s remaining` : 'Almost done...'}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="text-2xl font-bold text-gray-900">
+                                {Math.round(progress)}%
+                            </div>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div
+                                className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-500 ease-out relative overflow-hidden"
+                                style={{ width: `${progress}%` }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                            </div>
+                        </div>
+
+                        {/* Estimated Total Time */}
+                        <div className="mt-3 text-xs text-gray-500 text-center">
+                            Estimated total time: ~{estimatedDuration} seconds
+                        </div>
+                    </div>
+                )}
 
                 {/* Error Message */}
                 {error && (

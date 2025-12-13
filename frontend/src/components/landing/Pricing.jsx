@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import { useTheme } from '../../hooks/useTheme';
 import {
     CheckIcon,
     SparklesIcon,
@@ -9,6 +10,7 @@ import {
 const Pricing = () => {
     const navigate = useNavigate();
     const [ref, isVisible] = useScrollReveal({ threshold: 0.1 });
+    const { isDark } = useTheme();
 
     const plans = [
         {
@@ -65,9 +67,9 @@ const Pricing = () => {
     ];
 
     return (
-        <div id="pricing" className="relative bg-[#0a0a0f] py-24 px-6 overflow-hidden">
+        <div id="pricing" className={`relative ${isDark ? 'bg-[#0a0a0f]' : 'bg-white'} py-24 px-6 overflow-hidden`}>
             {/* Background decoration */}
-            <div className="absolute inset-0 gradient-mesh-bg opacity-30"></div>
+            <div className={`absolute inset-0 gradient-mesh-bg ${isDark ? 'opacity-30' : 'opacity-20'}`}></div>
 
             <div
                 ref={ref}
@@ -76,10 +78,10 @@ const Pricing = () => {
             >
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h2 className={`text-4xl md:text-5xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-4`}>
                         Simple, <span className="gradient-text">Transparent Pricing</span>
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                    <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-3xl mx-auto`}>
                         Start free, upgrade when you need more
                     </p>
                 </div>
@@ -89,9 +91,9 @@ const Pricing = () => {
                     {plans.map((plan, index) => (
                         <div
                             key={index}
-                            className={`relative glass-card p-8 rounded-2xl border transition-all duration-300 hover:scale-105 ${plan.popular
+                            className={`relative ${isDark ? 'glass-card' : 'bg-white shadow-lg'} p-8 rounded-2xl border transition-all duration-300 hover:scale-105 ${plan.popular
                                     ? 'border-indigo-500 shadow-2xl shadow-indigo-500/20 transform scale-105'
-                                    : 'border-gray-800 hover:border-gray-700'
+                                    : isDark ? 'border-gray-800 hover:border-gray-700' : 'border-gray-200 hover:border-indigo-200'
                                 }`}
                         >
                             {/* Popular Badge */}
@@ -104,15 +106,15 @@ const Pricing = () => {
 
                             {/* Plan Header */}
                             <div className="mb-6">
-                                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                                <p className="text-gray-400 text-sm mb-4">{plan.description}</p>
+                                <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-2`}>{plan.name}</h3>
+                                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4`}>{plan.description}</p>
 
                                 <div className="flex items-baseline gap-2">
                                     <span className={`text-5xl font-bold bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                                         {plan.price}
                                     </span>
                                     {plan.price.startsWith('$') && plan.price !== '$0' && (
-                                        <span className="text-gray-400">/month</span>
+                                        <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>/month</span>
                                     )}
                                 </div>
                             </div>
@@ -120,7 +122,7 @@ const Pricing = () => {
                             {/* Features */}
                             <ul className="space-y-3 mb-8">
                                 {plan.features.map((feature, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-gray-300">
+                                    <li key={idx} className={`flex items-start gap-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                                         <CheckIcon className={`h-5 w-5 flex-shrink-0 mt-0.5 text-transparent bg-gradient-to-r ${plan.gradient} bg-clip-text`} style={{ filter: 'brightness(2)' }} />
                                         <span>{feature}</span>
                                     </li>
@@ -132,7 +134,9 @@ const Pricing = () => {
                                 onClick={plan.ctaAction}
                                 className={`w-full py-4 font-bold rounded-xl text-lg transition-all duration-200 transform hover:scale-105 ${plan.popular
                                         ? `bg-gradient-to-r ${plan.gradient} text-white animate-pulse-glow-blue`
-                                        : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-700'
+                                        : isDark
+                                            ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-700'
+                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
                                     }`}
                             >
                                 {plan.cta}
@@ -142,9 +146,9 @@ const Pricing = () => {
                 </div>
 
                 {/* Bottom Note */}
-                <div className="text-center p-6 glass-card rounded-xl border border-gray-800">
-                    <p className="text-gray-300">
-                        <span className="font-semibold text-white">All plans include:</span> 30-day money-back guarantee, cancel anytime, no hidden fees
+                <div className={`text-center p-6 ${isDark ? 'glass-card border-gray-800' : 'bg-white border-gray-200 shadow-md'} rounded-xl border`}>
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-700'}>
+                        <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>All plans include:</span> 30-day money-back guarantee, cancel anytime, no hidden fees
                     </p>
                 </div>
             </div>
