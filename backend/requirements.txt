@@ -11,6 +11,7 @@ alembic==1.14.0
 pyjwt==2.10.1
 bcrypt==4.2.1
 python-jose[cryptography]==3.3.0
+slowapi==0.1.9
 
 # Cryptography
 cryptography==44.0.0
@@ -43,6 +44,9 @@ email-validator==2.2.0
 # HTTP Client
 httpx==0.28.1
 requests==2.32.3
+
+# System Monitoring
+psutil==6.1.1
 
 # Environment
 python-dotenv==1.0.1

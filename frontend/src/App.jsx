@@ -5,6 +5,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Header from './components/layout/Header';
 
 // Pages
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Classification from './pages/Classification';
@@ -13,7 +14,6 @@ import Policies from './pages/Policies';
 import Analytics from './pages/Analytics';
 import UserManagement from './pages/UserManagement';
 import MFASetup from './pages/MFASetup';
-import PublicEncrypt from './pages/PublicEncrypt';
 import PublicDecrypt from './pages/PublicDecrypt';
 import BenchmarkDashboard from './pages/BenchmarkDashboard';
 
@@ -23,28 +23,95 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Public Routes (No Authentication Required) */}
+                    <Route path="/" element={<Landing />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/encrypt" element={<PublicEncrypt />} />
                     <Route path="/share/:token" element={<PublicDecrypt />} />
 
                     {/* Protected Routes */}
                     <Route
-                        path="/*"
+                        path="/dashboard"
                         element={
                             <ProtectedRoute>
                                 <div className="min-h-screen bg-slate-900">
                                     <Header />
-                                    <Routes>
-                                        <Route path="/" element={<Dashboard />} />
-                                        <Route path="/classification" element={<Classification />} />
-                                        <Route path="/encryption" element={<Encryption />} />
-                                        <Route path="/policies" element={<Policies />} />
-                                        <Route path="/analytics" element={<Analytics />} />
-                                        <Route path="/benchmarks" element={<BenchmarkDashboard />} />
-                                        <Route path="/admin/users" element={<UserManagement />} />
-                                        <Route path="/mfa/setup" element={<MFASetup />} />
-                                        <Route path="*" element={<Navigate to="/" replace />} />
-                                    </Routes>
+                                    <Dashboard />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/classification"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <Classification />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/encryption"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <Encryption />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/policies"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <Policies />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/analytics"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <Analytics />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/benchmarks"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <BenchmarkDashboard />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin/users"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <UserManagement />
+                                </div>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/mfa/setup"
+                        element={
+                            <ProtectedRoute>
+                                <div className="min-h-screen bg-slate-900">
+                                    <Header />
+                                    <MFASetup />
                                 </div>
                             </ProtectedRoute>
                         }
@@ -56,3 +123,4 @@ function App() {
 }
 
 export default App;
+
